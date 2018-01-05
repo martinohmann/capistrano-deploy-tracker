@@ -85,7 +85,7 @@ module DeployTracker
     def enabled?
       fetch(:deploy_tracker_enabled)
     end
-    private :enabled
+    private :enabled?
 
     def api_token
       fetch(:deploy_tracker_api_token)

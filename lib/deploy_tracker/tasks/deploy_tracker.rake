@@ -16,7 +16,7 @@ namespace :deploy_tracker do
     end
 
     desc 'Test deploy tracker integration'
-    task test: %i(updating updated reverting reverted failed) do
+    task test: %i(finished reverted failed) do
       # all tasks run as dependencies
     end
   end

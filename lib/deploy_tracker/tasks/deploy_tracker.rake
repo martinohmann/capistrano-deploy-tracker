@@ -2,12 +2,12 @@ namespace :deploy_tracker do
   namespace :deploy do
     desc 'Notify about finished deploy'
     task :finished do
-      DeployTracker::Capistrano.new(self).run(:updated)
+      DeployTracker::Capistrano.new(self).run(:success)
     end
 
     desc 'Notify about finished rollback'
     task :reverted do
-      DeployTracker::Capistrano.new(self).run(:reverted)
+      DeployTracker::Capistrano.new(self).run(:rollback)
     end
 
     desc 'Notify about failed deploy'

@@ -30,6 +30,7 @@ namespace :load do
   task :defaults do
     set :deploy_tracker_api_token, -> { ENV['DEPLOY_TRACKER_API_TOKEN'] }
     set :deploy_tracker_api_url, -> { ENV['DEPLOY_TRACKER_API_URL'] }
+    set :deploy_tracker_debug, -> { ENV['DEPLOY_TRACKER_DEBUG'] }
     set :deploy_tracker_enabled, -> { true }
   end
 end

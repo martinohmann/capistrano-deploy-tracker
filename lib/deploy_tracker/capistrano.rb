@@ -25,10 +25,9 @@ module DeployTracker
 
     def post(action, backend)
       params = compile_params(action)
+      backend_info(backend, params) if dry_run? || debug?
 
-      if dry_run?
-        backend_info(backend, params)
-      else
+      unless dry_run?
         begin
           response = publish_deploy(params)
         rescue => e
@@ -46,7 +45,7 @@ module DeployTracker
         project_url: fetch(:public_repo_url),
         stage: fetch(:stage),
         branch: fetch(:branch),
-        commit_hash: fetch(:current_revision),
+        commit_hash: fetch(:current_revision, 'deadbeef'),
         deployer: fetch(:local_user),
         action: action
       }
@@ -63,7 +62,7 @@ module DeployTracker
     private :dry_run?
 
     def backend_info(backend, params)
-      backend.info('[deploy_tracker] Deploy Tracker Dry Run:')
+      backend.info('[deploy_tracker] Deploy Tracker:')
       backend.info("[deploy_tracker]   Application: #{params[:application]}")
       backend.info("[deploy_tracker]   Project URL: #{params[:project_url]}")
       backend.info("[deploy_tracker]   Stage: #{params[:stage]}")
@@ -81,6 +80,11 @@ module DeployTracker
       warn("[DeployTracker]   Body: #{response.body}") if response.message != response.body && response.body !~ /<html/
     end
     private :api_failure
+
+    def debug?
+      fetch(:deploy_tracker_debug)
+    end
+    private :debug?
 
     def enabled?
       fetch(:deploy_tracker_enabled)

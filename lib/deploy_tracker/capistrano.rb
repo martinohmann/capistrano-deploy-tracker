@@ -16,15 +16,15 @@ module DeployTracker
       @env = env
     end
 
-    def run(action)
+    def run(status)
       return unless enabled?
 
       me = self
-      run_locally { me.post(action, self) }
+      run_locally { me.publish(status, self) }
     end
 
-    def post(action, backend)
-      params = compile_params(action)
+    def publish(status, backend)
+      params = compile_params(status)
       backend_info(backend, params) if dry_run? || debug?
 
       unless dry_run?
@@ -39,7 +39,7 @@ module DeployTracker
       end
     end
 
-    def compile_params(action)
+    def compile_params(status)
       {
         application: fetch(:display_name, fetch(:application)),
         project_url: fetch(:public_repo_url),
@@ -47,7 +47,7 @@ module DeployTracker
         branch: fetch(:branch),
         commit_hash: fetch(:current_revision, 'deadbeef'),
         deployer: fetch(:local_user),
-        action: action
+        status: status
       }
     end
     private :compile_params
@@ -69,6 +69,7 @@ module DeployTracker
       backend.info("[deploy_tracker]   Branch: #{params[:branch]}")
       backend.info("[deploy_tracker]   Commit Hash: #{params[:commit_hash]}")
       backend.info("[deploy_tracker]   Deployer: #{params[:deployer]}")
+      backend.info("[deploy_tracker]   Status: #{params[:status]}")
     end
     private :backend_info
 

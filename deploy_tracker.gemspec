@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "deploy_tracker"
   spec.version       = DeployTracker::VERSION
   spec.authors       = ["Martin Ohmann"]
-  spec.email         = ["martin.ohmann@lesara.de"]
+  spec.email         = ["martin@mohmann.de"]
   spec.description   = %q{Publishes deploy info to deploy tracker api}
   spec.summary       = %q{Publishes deploy info to deploy tracker api}
-  spec.homepage      = "https://git.lesara.de/infrastructure/capistrano-deploy-tracker"
+  spec.homepage      = "https://github.com/martinohmann/capistrano-deploy-tracker"
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

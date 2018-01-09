@@ -40,15 +40,19 @@ module DeployTracker
     end
 
     def compile_params(status)
-      {
+      params = {
         application: fetch(:display_name, fetch(:application)),
-        project_url: fetch(:public_repo_url),
         stage: fetch(:stage),
-        branch: fetch(:branch),
-        commit_hash: fetch(:current_revision, 'deadbeef'),
         deployer: fetch(:local_user),
         status: status
       }
+
+      unless status == :rollback
+        params[:branch] = fetch(:branch)
+        params[:commit_hash] = fetch(:current_revision)
+      end
+
+      params
     end
     private :compile_params
 
@@ -64,7 +68,6 @@ module DeployTracker
     def backend_info(backend, params)
       backend.info('[deploy_tracker] Deploy Tracker:')
       backend.info("[deploy_tracker]   Application: #{params[:application]}")
-      backend.info("[deploy_tracker]   Project URL: #{params[:project_url]}")
       backend.info("[deploy_tracker]   Stage: #{params[:stage]}")
       backend.info("[deploy_tracker]   Branch: #{params[:branch]}")
       backend.info("[deploy_tracker]   Commit Hash: #{params[:commit_hash]}")
